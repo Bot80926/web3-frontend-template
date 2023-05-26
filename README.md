@@ -7,6 +7,11 @@
 - Different Theme 
 - I18n
 
+## Run 🏃
+```
+yarn && yarn dev
+```
+
 ## Framework 🌞
 - [Next.js](https://nextjs.org/docs)
 - [wagmi](https://wagmi.sh/)
