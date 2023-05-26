@@ -5,7 +5,7 @@ import { Flex, useColorModeValue, Spacer, Heading, Popover, PopoverTrigger, Popo
 import { SITE_NAME } from 'config/site'
 import { LinkComponent } from './LinkComponent'
 import { ThemeSwitcher } from './ThemeSwitcher'
-import { ConnectButton } from '@rainbow-me/rainbowkit'
+import { Web3Button } from '@web3modal/react'
 import { useUserLanguage } from '../../state/user/hooks'
 import { useAppDispatch } from '../../state/index'
 import { updateUserLanguage, UserLanguage } from '../../state/user/actions'
@@ -47,7 +47,7 @@ export function Header(props: Props) {
       </LinkComponent>
       <Spacer />
       <Flex alignItems="center" gap={4}>
-        <ConnectButton />
+        <Web3Button icon="hide" label="Connect Wallet" />
         <ThemeSwitcher />
         <Popover placement="bottom" closeOnBlur={true} trigger="hover">
           <PopoverTrigger>

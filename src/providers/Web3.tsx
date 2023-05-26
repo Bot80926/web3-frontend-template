@@ -1,27 +1,32 @@
-import { configureChains, WagmiConfig, createConfig } from 'wagmi'
+import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
+import { configureChains, createConfig, WagmiConfig } from 'wagmi'
 import { publicProvider } from 'wagmi/providers/public'
-import { CHAINS } from '../config/chains'
+import { CHAINS } from 'config'
+import { useColorMode } from '@chakra-ui/react'
 import { ReactNode, useEffect, useState } from 'react'
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import { Web3Modal } from '@web3modal/react'
 
 interface Props {
   children: ReactNode
 }
+const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID ?? ''
+if (!projectId) {
+  console.warn('You need to provide a NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID env variable')
+}
 
-const { chains, publicClient } = configureChains(CHAINS, [publicProvider()])
+const { chains, publicClient, webSocketPublicClient } = configureChains(CHAINS, [publicProvider(), w3mProvider({ projectId: projectId })])
 
-const { connectors } = getDefaultWallets({
-  appName: 'My RainbowKit App',
-  chains,
-})
-
-const wagmiClient = createConfig({
-  autoConnect: false,
-  connectors,
+const wagmiConfig = createConfig({
+  autoConnect: true,
+  connectors: w3mConnectors({ version: 2, chains, projectId: projectId }),
   publicClient,
+  webSocketPublicClient,
 })
+
+const ethereumClient = new EthereumClient(wagmiConfig, chains)
 
 export function Web3Provider(props: Props) {
+  const { colorMode } = useColorMode()
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
@@ -30,11 +35,9 @@ export function Web3Provider(props: Props) {
 
   return (
     <>
-      {ready && (
-        <WagmiConfig config={wagmiClient}>
-          <RainbowKitProvider chains={chains}>{props.children}</RainbowKitProvider>
-        </WagmiConfig>
-      )}
+      {ready && <WagmiConfig config={wagmiConfig}>{props.children}</WagmiConfig>}
+
+      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} themeMode={colorMode} />
     </>
   )
 }

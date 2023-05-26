@@ -9,7 +9,6 @@ import { useIsMounted } from 'hooks/useIsMounted'
 
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import '@rainbow-me/rainbowkit/styles.css'
 import 'focus-visible/dist/focus-visible'
 
 import Seo from 'components/Layouts/Seo'
