@@ -1,6 +1,8 @@
 # web3-frontend-template
 **Target: create a web3 front-end project with popular web3 framework.**
 
+![title-img](src/assets/template.png)
+
 ## Init Function
 - MultiChain 
 - Auto refresh wallet balances
