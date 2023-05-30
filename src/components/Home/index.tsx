@@ -26,13 +26,17 @@ const Home = () => {
             <Text fontSize="lg">Wallet address: {address}</Text>
             <Text fontSize="lg">Wallet Balance: </Text>
 
-            {TOKENS[chain?.id].map((token) => {
-              return (
-                <Text fontSize="lg" key={token.address} color={'gray.500'}>
-                  {token.symbol}: {walletBalances[token.symbol]}
-                </Text>
-              )
-            })}
+            {!chain.unsupported ? (
+              TOKENS[chain?.id]?.map((token) => {
+                return (
+                  <Text fontSize="lg" key={token.address} color={'gray.500'}>
+                    {token.symbol}: {walletBalances[token.symbol]}
+                  </Text>
+                )
+              })
+            ) : (
+              <Text>Unsupported chain</Text>
+            )}
           </>
         ) : (
           <Text fontSize="lg" as="b">
